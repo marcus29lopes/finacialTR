@@ -1,5 +1,5 @@
 CREATE TABLE transaction (
-                             id SERIAL PRIMARY KEY,
+                             cd_transaction SERIAL PRIMARY KEY,
                              amount NUMERIC(15,2) NOT NULL,
                              date TIMESTAMP NOT NULL,
                              description TEXT,
