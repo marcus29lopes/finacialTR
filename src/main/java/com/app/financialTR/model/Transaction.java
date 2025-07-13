@@ -1,6 +1,5 @@
-package com.app.finacialTR.model;
-
-import com.app.finacialTR.enumType.TransactionType;
+package com.app.financialTR.model;
+import com.app.financialTR.enumType.TransactionType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +13,7 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long cdTransaction;
 
     private TransactionType type;
 

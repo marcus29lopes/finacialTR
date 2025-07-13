@@ -1,13 +1,13 @@
-package com.app.finacialTR;
+package com.app.financialTR;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FinacialTrApplication {
+public class FinancialTrApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FinacialTrApplication.class, args);
+		SpringApplication.run(FinancialTrApplication.class, args);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.app.finacialTR;
+package com.app.financialTR;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

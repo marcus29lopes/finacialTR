@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.app</groupId>
-    <artifactId>finacialTR</artifactId>
+    <artifactId>financialTR</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>finacialTR</name>
+    <name>financialTR</name>
     <description>financial tracker</description>
     <url/>
     <licenses>

@@ -1,4 +1,4 @@
-package com.app.finacialTR.enumType;
+package com.app.financialTR.enumType;
 
 public enum TransactionType {
     INCOME, EXPENSE
