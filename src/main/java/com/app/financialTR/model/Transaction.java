@@ -1,5 +1,4 @@
 package com.app.financialTR.model;
-import com.app.financialTR.enumType.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +18,9 @@ public class Transaction {
     @Column(name = "cd_transaction")
     private Long cdTransaction;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private TransactionType type;
+    @ManyToOne
+    @JoinColumn(name = "transaction_type_id")
+    private TypeValue cdTypeValue;
 
     @Column(name = "description")
     private String description;
