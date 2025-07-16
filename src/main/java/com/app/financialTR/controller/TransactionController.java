@@ -27,14 +27,14 @@ public class TransactionController {
     @ResponseStatus(HttpStatus.OK)
     public List<Transaction> getAllTransactions() {
 
-        return transactionService.listAllTransactions();
+        return transactionService.getAllTransactions();
     }
 
     @GetMapping(value = "/transaction/{cdTypeValue}")
     @ResponseStatus(HttpStatus.OK)
     public List<TransactionDTO> getTransactionsByType(@PathVariable Long cdTypeValue) {
 
-        return transactionService.listTransactionsByCdTypeValue(cdTypeValue);
+        return transactionService.getTransactionsByCdTypeValue(cdTypeValue);
     }
 
 

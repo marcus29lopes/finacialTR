@@ -9,14 +9,12 @@ import java.time.LocalDateTime;
 @Component
 public class TransactionMapper {
 
-    public Transaction toEntity(TransactionDTO transactionDTO, TypeValue typeValueTransaction) {
+    public Transaction toEntity(TransactionDTO transactionDTO) {
         return Transaction.builder()
                 .description(transactionDTO.getDescription())
                 .dateTime(LocalDateTime.now())
                 .amount(transactionDTO.getAmount())
-                .cdTypeValue(typeValueTransaction)
                 .build();
-
     }
 
     public TransactionDTO toDTO(Transaction transaction) {
@@ -26,4 +24,5 @@ public class TransactionMapper {
                 .amount(transaction.getAmount())
                 .build();
     }
+
 }

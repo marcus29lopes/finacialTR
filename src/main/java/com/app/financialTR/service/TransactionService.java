@@ -6,6 +6,7 @@ import com.app.financialTR.model.Transaction;
 import com.app.financialTR.model.TypeValue;
 import com.app.financialTR.repository.TransactionRepository;
 import com.app.financialTR.repository.TypeValueRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,23 +28,27 @@ public class TransactionService {
 
 
 
+    @Transactional
     public TransactionDTO addTransaction(TransactionDTO dtoTransaction) {
 
         TypeValue typeValueTransaction = typeValueRepository.findById(dtoTransaction.getCdTypeValue())
-                .orElseThrow(() -> new RuntimeException("Type Value Not Found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "TypeValue não encontrado: " + dtoTransaction.getCdTypeValue()));
 
-        Transaction newTransaction = transactionMapper.toEntity(dtoTransaction, typeValueTransaction);
+        Transaction newTransaction = transactionMapper.toEntity(dtoTransaction);
+        newTransaction.setCdTypeValue(typeValueTransaction);
 
         transactionRepository.save(newTransaction);
 
         return transactionMapper.toDTO(newTransaction);
     }
 
-    public List<Transaction> listAllTransactions() {
+
+
+    public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
 
-    public List<TransactionDTO> listTransactionsByCdTypeValue(Long cdTypeValue) {
+    public List<TransactionDTO> getTransactionsByCdTypeValue(Long cdTypeValue) {
         List<Transaction> transactionList = transactionRepository.findByCdTypeValue_CdTypeValue(cdTypeValue);
 
         if (transactionList.isEmpty()) {
