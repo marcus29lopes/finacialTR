@@ -1,8 +1,10 @@
 package com.app.financialTR.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TypeValue {
 
     @Column(name="cd_type_value")
@@ -25,6 +28,7 @@ public class TypeValue {
 
     //vou conseguir listar transaçoes por tipos
     @OneToMany(mappedBy = "cdTypeValue")
+    @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
 

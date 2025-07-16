@@ -2,19 +2,28 @@ package com.app.financialTR.mapper;
 
 import com.app.financialTR.DTO.TransactionDTO;
 import com.app.financialTR.model.Transaction;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import com.app.financialTR.model.TypeValue;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface TransactionMapper {
-    TransactionMapper INSTANCE = Mappers.getMapper(TransactionMapper.class);
+import java.time.LocalDateTime;
+@Component
+public class TransactionMapper {
 
-    @Mapping(target = "cdTypeValue", source = "cdTypeValue.cdTypeValue")
-    TransactionDTO toDto(Transaction transaction);
+    public Transaction toEntity(TransactionDTO transactionDTO, TypeValue typeValueTransaction) {
+        return Transaction.builder()
+                .description(transactionDTO.getDescription())
+                .dateTime(LocalDateTime.now())
+                .amount(transactionDTO.getAmount())
+                .cdTypeValue(typeValueTransaction)
+                .build();
 
-    @Mapping(target = "cdTypeValue", ignore = true)
-    @Mapping(target = "cdTransaction", ignore = true)
-    @Mapping(target = "dateTime", ignore = true)
-    Transaction toEntity(TransactionDTO transactionDTO);
+    }
+
+    public TransactionDTO toDTO(Transaction transaction) {
+        return TransactionDTO.builder()
+                .cdTypeValue(transaction.getCdTypeValue().getCdTypeValue())
+                .description(transaction.getDescription())
+                .amount(transaction.getAmount())
+                .build();
+    }
 }

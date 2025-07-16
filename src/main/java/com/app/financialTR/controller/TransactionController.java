@@ -30,4 +30,13 @@ public class TransactionController {
         return transactionService.listAllTransactions();
     }
 
+    @GetMapping(value = "/transaction/{cdTypeValue}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TransactionDTO> getTransactionsByType(@PathVariable Long cdTypeValue) {
+
+        return transactionService.listTransactionsByCdTypeValue(cdTypeValue);
+    }
+
+
+
 }
