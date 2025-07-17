@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class TransactionController {
     TransactionService transactionService;
 
     @PostMapping(value = "/add-new-transaction")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public TransactionDTO addNewTransaction(@RequestBody TransactionDTO dtoTransaction) {
 
         return transactionService.addTransaction(dtoTransaction);
@@ -30,13 +31,17 @@ public class TransactionController {
         return transactionService.getAllTransactions();
     }
 
-    @GetMapping(value = "/transaction/{cdTypeValue}")
+    @GetMapping(value = "/transactions/{cdTypeValue}")
     @ResponseStatus(HttpStatus.OK)
     public List<TransactionDTO> getTransactionsByType(@PathVariable Long cdTypeValue) {
 
         return transactionService.getTransactionsByCdTypeValue(cdTypeValue);
     }
 
+    @GetMapping(value = "/transactions/period")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TransactionDTO> getTransactionsByPeriod(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
 
-
+        return transactionService.getTransactionsByPeriod(startDate, endDate);
+    }
 }

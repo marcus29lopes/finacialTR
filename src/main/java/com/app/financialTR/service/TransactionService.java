@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -58,6 +59,16 @@ public class TransactionService {
         return transactionList.stream()
                 .map( transaction -> transactionMapper.toDTO(transaction))
                         .toList();
+
+    }
+
+    public List<TransactionDTO> getTransactionsByPeriod(LocalDateTime startDate, LocalDateTime endDate) {
+
+        List<Transaction> transactionList = transactionRepository.getTransactionsByPeriod(startDate, endDate);
+
+       return transactionList.stream()
+               .map( transaction -> transactionMapper.toDTO(transaction))
+               .toList();
 
     }
 }
