@@ -18,4 +18,9 @@ public class CategoryService {
         return categoryRepository.findById(cdCategory);
 
     }
+
+    public void addCategory(Category category) {
+
+        categoryRepository.save(category);
+    }
 }

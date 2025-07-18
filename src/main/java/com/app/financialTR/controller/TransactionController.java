@@ -5,6 +5,7 @@ import com.app.financialTR.model.Transaction;
 import com.app.financialTR.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -19,43 +20,37 @@ public class TransactionController {
     TransactionService transactionService;
 
     @PostMapping(value = "/transaction/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public TransactionDTO addNewTransaction(@RequestBody TransactionDTO trasactionDTO) {
+    public ResponseEntity<TransactionDTO> addNewTransaction(@RequestBody TransactionDTO trasactionDTO) {
 
-        return transactionService.addTransaction(trasactionDTO);
+        return new ResponseEntity<>(transactionService.addTransaction(trasactionDTO), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/transactions")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Transaction> getAllTransactions() {
+    public ResponseEntity<List<Transaction>> getAllTransactions() {
 
-        return transactionService.getAllTransactions();
+        return new ResponseEntity<>(transactionService.getAllTransactions(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/transactions/typeValue/{cdTypeValue}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<TransactionDTO> getTransactionsByType(@PathVariable Long cdTypeValue) {
+    public ResponseEntity<List<TransactionDTO>> getTransactionsByType(@PathVariable Long cdTypeValue) {
 
-        return transactionService.getTransactionsByCdTypeValue(cdTypeValue);
+        return new ResponseEntity<>(transactionService.getTransactionsByCdTypeValue(cdTypeValue), HttpStatus.OK);
     }
 
     @GetMapping(value = "/transactions/period")
-    @ResponseStatus(HttpStatus.OK)
-    public List<TransactionDTO> getTransactionsByPeriod(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
+    public ResponseEntity<List<TransactionDTO>> getTransactionsByPeriod(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
 
-        return transactionService.getTransactionsByPeriod(startDate, endDate);
+        return new ResponseEntity<>(transactionService.getTransactionsByPeriod(startDate, endDate), HttpStatus.OK);
     }
     @GetMapping(value = "/transactions/category/{cdCategory}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<TransactionDTO> getTransactionsByCategory(@PathVariable Long cdCategory) {
+    public ResponseEntity<List<TransactionDTO>> getTransactionsByCategory(@PathVariable Long cdCategory) {
 
-        return transactionService.getTransactionsByCategory(cdCategory);
+        return new ResponseEntity<>(transactionService.getTransactionsByCategory(cdCategory), HttpStatus.OK);
     }
 
     @GetMapping(value = "/transactions/get-balance")
-    @ResponseStatus(HttpStatus.OK)
-    public BigDecimal getTransactionBalance() {
-        return transactionService.getTotalBalance();
+    public ResponseEntity<BigDecimal> getTransactionBalance() {
+        return new ResponseEntity<>(transactionService.getTotalBalance(), HttpStatus.OK);
     }
 
 }
