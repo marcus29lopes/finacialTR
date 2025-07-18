@@ -1,0 +1,4 @@
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    nm_role VARCHAR(50) NOT NULL UNIQUE
+);
