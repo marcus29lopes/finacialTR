@@ -34,7 +34,6 @@ public class TransactionService {
     CategoryService categoryService;
 
 
-
     @Transactional
     public TransactionDTO addTransaction(TransactionDTO dtoTransaction) {
 
@@ -43,8 +42,6 @@ public class TransactionService {
 
         Category categoryTransaction = categoryService.findById(dtoTransaction.getCdCategory())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category não encontrado: " + dtoTransaction.getCdCategory()));
-
-        Optional<Category> category = categoryService.findById(dtoTransaction.getCdCategory());
 
         Transaction newTransaction = transactionMapper.toEntity(dtoTransaction);
         newTransaction.setTypeValue(typeValueTransaction);
@@ -56,21 +53,20 @@ public class TransactionService {
     }
 
 
-
     public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
 
     public List<TransactionDTO> getTransactionsByCdTypeValue(Long cdTypeValue) {
-        List<Transaction> transactionList = transactionRepository.geTransactionsByCategory(cdTypeValue);
+        List<Transaction> transactionList = transactionRepository.geTransactionsByTypeValue(cdTypeValue);
 
         if (transactionList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma transação encontrada");
         }
 
         return transactionList.stream()
-                .map( transaction -> transactionMapper.toDTO(transaction))
-                        .toList();
+                .map(transaction -> transactionMapper.toDTO(transaction))
+                .toList();
 
     }
 
@@ -78,9 +74,9 @@ public class TransactionService {
 
         List<Transaction> transactionList = transactionRepository.getTransactionsByPeriod(startDate, endDate);
 
-       return transactionList.stream()
-               .map( transaction -> transactionMapper.toDTO(transaction))
-               .toList();
+        return transactionList.stream()
+                .map(transaction -> transactionMapper.toDTO(transaction))
+                .toList();
 
     }
 

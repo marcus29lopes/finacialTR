@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class TransactionController {
         return transactionService.getAllTransactions();
     }
 
-    @GetMapping(value = "/transactions/{cdTypeValue}")
+    @GetMapping(value = "/transactions/typeValue/{cdTypeValue}")
     @ResponseStatus(HttpStatus.OK)
     public List<TransactionDTO> getTransactionsByType(@PathVariable Long cdTypeValue) {
 
@@ -44,4 +45,17 @@ public class TransactionController {
 
         return transactionService.getTransactionsByPeriod(startDate, endDate);
     }
+    @GetMapping(value = "/transactions/category/{cdCategory}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TransactionDTO> getTransactionsByCategory(@PathVariable Long cdCategory) {
+
+        return transactionService.getTransactionsByCategory(cdCategory);
+    }
+
+    @GetMapping(value = "/transactions/get-balance")
+    @ResponseStatus(HttpStatus.OK)
+    public BigDecimal getTransactionBalance() {
+        return transactionService.getTotalBalance();
+    }
+
 }

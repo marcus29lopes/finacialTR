@@ -32,6 +32,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query(
             nativeQuery = true,
             value = "SELECT * FROM transaction " +
+                    "WHERE cd_type_value = :cdTypeValue"
+    )
+    List<Transaction> geTransactionsByTypeValue(Long cdTypeValue);
+
+
+    @Query(
+            nativeQuery = true,
+            value = "SELECT * FROM transaction " +
                     "WHERE cd_category = :cdCategory"
     )
     List<Transaction> geTransactionsByCategory(Long cdCategory);
