@@ -14,4 +14,5 @@ public class TransactionDTO {
     private Long cdTypeValue;
     private String description;
     private BigDecimal amount;
+    private Long cdCategory;
 }

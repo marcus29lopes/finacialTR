@@ -2,7 +2,6 @@ package com.app.financialTR.mapper;
 
 import com.app.financialTR.DTO.TransactionDTO;
 import com.app.financialTR.model.Transaction;
-import com.app.financialTR.model.TypeValue;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -22,6 +21,7 @@ public class TransactionMapper {
                 .cdTypeValue(transaction.getCdTypeValue().getCdTypeValue())
                 .description(transaction.getDescription())
                 .amount(transaction.getAmount())
+                .cdCategory(transaction.getCdCategory().getCdCategory())
                 .build();
     }
 

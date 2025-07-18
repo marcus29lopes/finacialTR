@@ -1,6 +1,7 @@
 package com.app.financialTR.repository;
 
 import com.app.financialTR.DTO.TransactionDTO;
+import com.app.financialTR.model.Category;
 import com.app.financialTR.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
+
+    @Query(
+            nativeQuery = true,
+            value = "SELECT * FROM transaction " +
+                    "WHERE cd_category = :cdCategory"
+    )
+    List<Transaction> findTransactionByCdCategory(Long cdCategory);
 }

@@ -2,6 +2,7 @@ package com.app.financialTR.service;
 
 import com.app.financialTR.DTO.TransactionDTO;
 import com.app.financialTR.mapper.TransactionMapper;
+import com.app.financialTR.model.Category;
 import com.app.financialTR.model.Transaction;
 import com.app.financialTR.model.TypeValue;
 import com.app.financialTR.repository.TransactionRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -27,6 +29,9 @@ public class TransactionService {
     @Autowired
     TransactionMapper transactionMapper;
 
+    @Autowired
+    CategoryService categoryService;
+
 
 
     @Transactional
@@ -35,8 +40,14 @@ public class TransactionService {
         TypeValue typeValueTransaction = typeValueRepository.findById(dtoTransaction.getCdTypeValue())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "TypeValue não encontrado: " + dtoTransaction.getCdTypeValue()));
 
+        Category categoryTransaction = categoryService.findById(dtoTransaction.getCdCategory())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category não encontrado: " + dtoTransaction.getCdCategory()));
+
+        Optional<Category> category = categoryService.findById(dtoTransaction.getCdCategory());
+
         Transaction newTransaction = transactionMapper.toEntity(dtoTransaction);
         newTransaction.setCdTypeValue(typeValueTransaction);
+        newTransaction.setCdCategory(categoryTransaction);
 
         transactionRepository.save(newTransaction);
 
@@ -70,5 +81,14 @@ public class TransactionService {
                .map( transaction -> transactionMapper.toDTO(transaction))
                .toList();
 
+    }
+
+    public List<TransactionDTO> getTransactionsByCategory(Long cdCategory) {
+
+        List<Transaction> transactions = transactionRepository.findTransactionByCdCategory(cdCategory);
+
+        return transactions.stream()
+                .map((Transaction transaction) -> transactionMapper.toDTO(transaction))
+                .toList();
     }
 }
