@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class TransactionService {
         Optional<Category> category = categoryService.findById(dtoTransaction.getCdCategory());
 
         Transaction newTransaction = transactionMapper.toEntity(dtoTransaction);
-        newTransaction.setCdTypeValue(typeValueTransaction);
+        newTransaction.setTypeValue(typeValueTransaction);
         newTransaction.setCdCategory(categoryTransaction);
 
         transactionRepository.save(newTransaction);
@@ -61,7 +62,7 @@ public class TransactionService {
     }
 
     public List<TransactionDTO> getTransactionsByCdTypeValue(Long cdTypeValue) {
-        List<Transaction> transactionList = transactionRepository.findByCdTypeValue_CdTypeValue(cdTypeValue);
+        List<Transaction> transactionList = transactionRepository.geTransactionsByCategory(cdTypeValue);
 
         if (transactionList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma transação encontrada");
@@ -85,10 +86,21 @@ public class TransactionService {
 
     public List<TransactionDTO> getTransactionsByCategory(Long cdCategory) {
 
-        List<Transaction> transactions = transactionRepository.findTransactionByCdCategory(cdCategory);
+        List<Transaction> transactions = transactionRepository.geTransactionsByCategory(cdCategory);
 
         return transactions.stream()
                 .map((Transaction transaction) -> transactionMapper.toDTO(transaction))
                 .toList();
+    }
+
+    public BigDecimal getTotalBalance() {
+
+        //traz todas transactions que e do tipo entrada e soma retornando um bigDecimal
+        BigDecimal balance = transactionRepository.getTransactionByTypeValue(2L)
+                .stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return balance;
     }
 }

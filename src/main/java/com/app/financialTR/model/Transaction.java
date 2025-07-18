@@ -21,8 +21,8 @@ public class Transaction {
     private Long cdTransaction;
 
     @ManyToOne
-    @JoinColumn(name = "transaction_type_id")
-    private TypeValue cdTypeValue;
+    @JoinColumn(name = "cd_type_value")
+    private TypeValue typeValue;
 
     @Column(name = "description")
     private String description;

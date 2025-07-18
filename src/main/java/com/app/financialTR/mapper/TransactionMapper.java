@@ -18,7 +18,7 @@ public class TransactionMapper {
 
     public TransactionDTO toDTO(Transaction transaction) {
         return TransactionDTO.builder()
-                .cdTypeValue(transaction.getCdTypeValue().getCdTypeValue())
+                .cdTypeValue(transaction.getTypeValue().getCdTypeValue())
                 .description(transaction.getDescription())
                 .amount(transaction.getAmount())
                 .cdCategory(transaction.getCdCategory().getCdCategory())

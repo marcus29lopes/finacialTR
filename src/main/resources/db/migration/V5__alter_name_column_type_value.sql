@@ -1,0 +1,1 @@
+ALTER TABLE transaction RENAME COLUMN transaction_type_id TO cd_type_value;

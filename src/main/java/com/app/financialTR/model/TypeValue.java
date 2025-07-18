@@ -27,7 +27,7 @@ public class TypeValue {
     private String nmTypeValue;
 
     //vou conseguir listar transaçoes por tipos
-    @OneToMany(mappedBy = "cdTypeValue")
+    @OneToMany(mappedBy = "typeValue")
     @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
