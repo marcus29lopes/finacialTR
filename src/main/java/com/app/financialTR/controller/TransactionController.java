@@ -12,20 +12,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/FTR")
+@RequestMapping(value = "api/FTR")
 public class TransactionController {
 
     @Autowired
     TransactionService transactionService;
 
-    @PostMapping(value = "/add-new-transaction")
+    @PostMapping(value = "/transaction/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public TransactionDTO addNewTransaction(@RequestBody TransactionDTO dtoTransaction) {
+    public TransactionDTO addNewTransaction(@RequestBody TransactionDTO trasactionDTO) {
 
-        return transactionService.addTransaction(dtoTransaction);
+        return transactionService.addTransaction(trasactionDTO);
     }
 
-    @GetMapping(value = "/all-transactions")
+    @GetMapping(value = "/transactions")
     @ResponseStatus(HttpStatus.OK)
     public List<Transaction> getAllTransactions() {
 
