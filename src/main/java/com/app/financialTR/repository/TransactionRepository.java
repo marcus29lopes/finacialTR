@@ -1,6 +1,8 @@
 package com.app.financialTR.repository;
 
 import com.app.financialTR.model.Transaction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,22 +21,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     )
     List<Transaction> getTransactionByTypeValue(Long cdTypeValue);
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT * FROM transaction " +
-                    "WHERE date BETWEEN :startDate AND :endDate"
-    )
-    List<Transaction> getTransactionsByPeriod(
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate
-    );
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT * FROM transaction " +
-                    "WHERE cd_type_value = :cdTypeValue"
-    )
-    List<Transaction> geTransactionsByTypeValue(Long cdTypeValue);
+    Page<Transaction> getTransactionsByPeriod(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            Pageable pageable);
+
+
+    Page<Transaction> geTransactionsByTypeValue(Long cdTypeValue, Pageable pageable);
 
 
     @Query(

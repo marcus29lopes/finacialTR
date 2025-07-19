@@ -9,6 +9,8 @@ import com.app.financialTR.repository.TransactionRepository;
 import com.app.financialTR.repository.TypeValueRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.app.financialTR.utils.PageableUtils.getPageable;
 
 @Service
 public class TransactionService {
@@ -52,16 +56,37 @@ public class TransactionService {
     }
 
 
-    public List<Transaction> getAllTransactions() {
-        return transactionRepository.findAll();
+    public List<TransactionDTO> getAllTransactions(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+        Pageable pageDetails = getPageable(pageNumber, pageSize, sortBy, sortOrder);
+        Page<Transaction> pageProducts = transactionRepository.findAll(pageDetails);
+
+        List<Transaction> transactions = pageProducts.getContent();
+
+        List<TransactionDTO> transactionsDTO = transactions.stream()
+                .map(transaction -> transactionMapper.toDTO(transaction))
+                .toList();
+
+        return transactionsDTO;
+
+
     }
 
-    public List<TransactionDTO> getTransactionsByCdTypeValue(Long cdTypeValue) {
-        List<Transaction> transactionList = transactionRepository.geTransactionsByTypeValue(cdTypeValue);
+    public List<TransactionDTO> getTransactionsByCdTypeValue(Long cdTypeValue, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+        Pageable pageDetails = getPageable(pageNumber, pageSize, sortBy, sortOrder);
+        Page<Transaction> pageTransactions = transactionRepository.geTransactionsByTypeValue(cdTypeValue, pageDetails);
 
-        if (transactionList.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma transação encontrada");
-        }
+        List<Transaction> transactions = pageTransactions.getContent();
+
+        return transactions.stream()
+                .map(transaction -> transactionMapper.toDTO(transaction))
+                .toList();
+    }
+
+    public List<TransactionDTO> getTransactionsByPeriod(LocalDateTime startDate, LocalDateTime endDate, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+        Pageable pageDetails = getPageable(pageNumber, pageSize, sortBy, sortOrder);
+        Page<Transaction> pageTransactions = transactionRepository.getTransactionsByPeriod(startDate, endDate, pageDetails);
+
+        List<Transaction> transactionList = pageTransactions.getContent();
 
         return transactionList.stream()
                 .map(transaction -> transactionMapper.toDTO(transaction))
@@ -69,17 +94,8 @@ public class TransactionService {
 
     }
 
-    public List<TransactionDTO> getTransactionsByPeriod(LocalDateTime startDate, LocalDateTime endDate) {
-
-        List<Transaction> transactionList = transactionRepository.getTransactionsByPeriod(startDate, endDate);
-
-        return transactionList.stream()
-                .map(transaction -> transactionMapper.toDTO(transaction))
-                .toList();
-
-    }
-
-    public List<TransactionDTO> getTransactionsByCategory(Long cdCategory) {
+    public List<TransactionDTO> getTransactionsByCategory(Long cdCategory, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+        Pageable pageDetails = getPageable(pageNumber, pageSize, sortBy, sortOrder);
 
         List<Transaction> transactions = transactionRepository.geTransactionsByCategory(cdCategory);
 
