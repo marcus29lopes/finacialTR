@@ -1,6 +1,7 @@
 package com.app.financialTR.service;
 
 import com.app.financialTR.DTO.TransactionDTO;
+import com.app.financialTR.exceptions.ResourceNotFoundException;
 import com.app.financialTR.mapper.TransactionMapper;
 import com.app.financialTR.model.Category;
 import com.app.financialTR.model.Transaction;
@@ -41,10 +42,10 @@ public class TransactionService {
     public TransactionDTO addTransaction(TransactionDTO dtoTransaction) {
 
         TypeValue typeValueTransaction = typeValueRepository.findById(dtoTransaction.getCdTypeValue())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "TypeValue não encontrado: " + dtoTransaction.getCdTypeValue()));
+                .orElseThrow(() -> new ResourceNotFoundException("TypeValue", dtoTransaction.getCdTypeValue()));
 
         Category categoryTransaction = categoryService.findById(dtoTransaction.getCdCategory())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category não encontrado: " + dtoTransaction.getCdCategory()));
+                .orElseThrow(() -> new ResourceNotFoundException("Category", dtoTransaction.getCdCategory()));
 
         Transaction newTransaction = transactionMapper.toEntity(dtoTransaction);
         newTransaction.setTypeValue(typeValueTransaction);
@@ -62,18 +63,16 @@ public class TransactionService {
 
         List<Transaction> transactions = pageProducts.getContent();
 
-        List<TransactionDTO> transactionsDTO = transactions.stream()
+        return transactions.stream()
                 .map(transaction -> transactionMapper.toDTO(transaction))
                 .toList();
-
-        return transactionsDTO;
 
 
     }
 
     public List<TransactionDTO> getTransactionsByCdTypeValue(Long cdTypeValue, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
         Pageable pageDetails = getPageable(pageNumber, pageSize, sortBy, sortOrder);
-        Page<Transaction> pageTransactions = transactionRepository.geTransactionsByTypeValue(cdTypeValue, pageDetails);
+        Page<Transaction> pageTransactions = transactionRepository.findTransactionsByTypeValue(cdTypeValue, pageDetails);
 
         List<Transaction> transactions = pageTransactions.getContent();
 
@@ -84,7 +83,7 @@ public class TransactionService {
 
     public List<TransactionDTO> getTransactionsByPeriod(LocalDateTime startDate, LocalDateTime endDate, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
         Pageable pageDetails = getPageable(pageNumber, pageSize, sortBy, sortOrder);
-        Page<Transaction> pageTransactions = transactionRepository.getTransactionsByPeriod(startDate, endDate, pageDetails);
+        Page<Transaction> pageTransactions = transactionRepository.findTransactionByDateTimeBetween(startDate, endDate, pageDetails);
 
         List<Transaction> transactionList = pageTransactions.getContent();
 

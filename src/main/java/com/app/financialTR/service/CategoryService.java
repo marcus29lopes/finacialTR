@@ -1,5 +1,6 @@
 package com.app.financialTR.service;
 
+import com.app.financialTR.exceptions.DuplicateNameException;
 import com.app.financialTR.model.Category;
 import com.app.financialTR.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class CategoryService {
     }
 
     public void addCategory(Category category) {
+
+        Boolean isCategoryFound = categoryRepository.existsByNmCategory(category.getNmCategory());
+
+        if (isCategoryFound) throw new DuplicateNameException("Category named " + category.getNmCategory());
 
         categoryRepository.save(category);
     }

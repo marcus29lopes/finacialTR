@@ -22,13 +22,18 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> getTransactionByTypeValue(Long cdTypeValue);
 
 
-    Page<Transaction> getTransactionsByPeriod(
+    Page<Transaction> findTransactionByDateTimeBetween(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
             Pageable pageable);
 
 
-    Page<Transaction> geTransactionsByTypeValue(Long cdTypeValue, Pageable pageable);
+    @Query(
+            nativeQuery = true,
+            value = "SELECT * FROM transaction " +
+                    "WHERE cd_type_value = :cdTypeValue"
+    )
+    Page<Transaction> findTransactionsByTypeValue(Long cdTypeValue, Pageable pageable);
 
 
     @Query(
