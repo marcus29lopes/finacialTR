@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,14 +48,10 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/transactions/period")
-    public ResponseEntity<List<TransactionDTO>> getTransactionsByPeriod(@RequestParam LocalDateTime startDate,
-                                                                        @RequestParam LocalDateTime endDate,
-                                                                        @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
-                                                                        @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
-                                                                        @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_TRANSACTIONS_BY, required = false) String sortBy,
-                                                                        @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIRECTION, required = false) String sortOrder) {
+    public ResponseEntity<List<TransactionDTO>> getTransactionsByPeriod(@RequestParam LocalDate startDate,
+                                                                        @RequestParam LocalDate endDate) {
 
-        return new ResponseEntity<>(transactionService.getTransactionsByPeriod(startDate, endDate, pageNumber, pageSize, sortBy, sortOrder), HttpStatus.OK);
+        return new ResponseEntity<>(transactionService.getTransactionsByPeriod(startDate, endDate), HttpStatus.OK);
     }
 
     @GetMapping(value = "/transactions/category/{cdCategory}")
@@ -67,6 +64,7 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getTransactionsByCategory(cdCategory, pageNumber, pageSize, sortBy, sortOrder), HttpStatus.OK);
     }
 
+    //soma todas entradas
     @GetMapping(value = "/transactions/get-balance")
     public ResponseEntity<BigDecimal> getTransactionBalance() {
         return new ResponseEntity<>(transactionService.getTotalBalance(), HttpStatus.OK);

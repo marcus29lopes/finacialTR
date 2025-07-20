@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,10 +23,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> getTransactionByTypeValue(Long cdTypeValue);
 
 
-    Page<Transaction> findTransactionByDateTimeBetween(
+    List<Transaction> findTransactionByDateTimeBetween(
             @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate,
-            Pageable pageable);
+            @Param("endDate") LocalDateTime endDate);
 
 
     @Query(

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,11 +80,13 @@ public class TransactionService {
                 .toList();
     }
 
-    public List<TransactionDTO> getTransactionsByPeriod(LocalDateTime startDate, LocalDateTime endDate, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
-        Pageable pageDetails = getPageable(pageNumber, pageSize, sortBy, sortOrder);
-        Page<Transaction> pageTransactions = transactionRepository.findTransactionByDateTimeBetween(startDate, endDate, pageDetails);
+    public List<TransactionDTO> getTransactionsByPeriod(LocalDate startDate, LocalDate endDate) {
 
-        List<Transaction> transactionList = pageTransactions.getContent();
+        LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00 do dia inicial
+        LocalDateTime endDateTime = endDate.plusDays(1).atStartOfDay(); // 00:00 do dia seguinte
+
+        List<Transaction> transactionList = transactionRepository.findTransactionByDateTimeBetween(startDateTime, endDateTime);
+
 
         return transactionList.stream()
                 .map(transaction -> transactionMapper.toDTO(transaction))
