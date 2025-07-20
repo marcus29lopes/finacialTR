@@ -1,18 +1,22 @@
 package com.app.financialTR.mapper;
 
 import com.app.financialTR.DTO.TransactionDTO;
+import com.app.financialTR.model.Category;
 import com.app.financialTR.model.Transaction;
+import com.app.financialTR.model.TypeValue;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 @Component
 public class TransactionMapper {
 
-    public Transaction toEntity(TransactionDTO transactionDTO) {
+    public Transaction toEntity(TransactionDTO transactionDTO, TypeValue typeValueTransaction, Category categoryTransaction) {
         return Transaction.builder()
                 .description(transactionDTO.getDescription())
                 .dateTime(LocalDateTime.now())
                 .amount(transactionDTO.getAmount())
+                .cdCategory(categoryTransaction)
+                .typeValue(typeValueTransaction)
                 .build();
     }
 

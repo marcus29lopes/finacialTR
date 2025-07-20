@@ -2,6 +2,7 @@ package com.app.financialTR.controller;
 
 import com.app.financialTR.model.Category;
 import com.app.financialTR.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping(value = "/category/save")
-    public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> saveCategory(@Valid @RequestBody Category category) {
         categoryService.addCategory(category);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }

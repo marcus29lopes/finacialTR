@@ -3,6 +3,7 @@ package com.app.financialTR.controller;
 import com.app.financialTR.DTO.TransactionDTO;
 import com.app.financialTR.config.AppConstants;
 import com.app.financialTR.service.TransactionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +14,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/FTR")
+@RequestMapping(value = "/FTR")
 public class TransactionController {
 
     @Autowired
     TransactionService transactionService;
 
     @PostMapping(value = "/transaction/save")
-    public ResponseEntity<TransactionDTO> addNewTransaction(@RequestBody TransactionDTO trasactionDTO) {
+    public ResponseEntity<TransactionDTO> addNewTransaction(@Valid @RequestBody TransactionDTO transactionDTO) {
 
-        return new ResponseEntity<>(transactionService.addTransaction(trasactionDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(transactionService.addTransaction(transactionDTO), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/transactions")

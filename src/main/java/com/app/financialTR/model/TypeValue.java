@@ -3,6 +3,8 @@ package com.app.financialTR.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +26,8 @@ public class TypeValue {
     private Long cdTypeValue;
 
     @Column(name="nm_type_value")
+    @NotBlank
+    @Size(min = 1, max = 20)
     private String nmTypeValue;
 
     //vou conseguir listar transaçoes por tipos

@@ -47,9 +47,7 @@ public class TransactionService {
         Category categoryTransaction = categoryService.findById(dtoTransaction.getCdCategory())
                 .orElseThrow(() -> new ResourceNotFoundException("Category", dtoTransaction.getCdCategory()));
 
-        Transaction newTransaction = transactionMapper.toEntity(dtoTransaction);
-        newTransaction.setTypeValue(typeValueTransaction);
-        newTransaction.setCdCategory(categoryTransaction);
+        Transaction newTransaction = transactionMapper.toEntity(dtoTransaction, typeValueTransaction, categoryTransaction);
 
         transactionRepository.save(newTransaction);
 
