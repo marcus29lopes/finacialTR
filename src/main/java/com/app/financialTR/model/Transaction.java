@@ -35,7 +35,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "cd_category")
-    private Category cdCategory;
+    private Category category;
 
 
 

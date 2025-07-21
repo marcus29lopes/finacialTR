@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class Category {
     @Column(name = "nm_category")
     private String nmCategory;
 
-    @OneToMany(mappedBy = "cdCategory")
+    @OneToMany(mappedBy = "category")
     @JsonIgnore
     private List<Transaction> transactions;
 

@@ -15,7 +15,7 @@ public class TransactionMapper {
                 .description(transactionDTO.getDescription())
                 .dateTime(LocalDateTime.now())
                 .amount(transactionDTO.getAmount())
-                .cdCategory(categoryTransaction)
+                .category(categoryTransaction)
                 .typeValue(typeValueTransaction)
                 .build();
     }
@@ -25,7 +25,7 @@ public class TransactionMapper {
                 .cdTypeValue(transaction.getTypeValue().getCdTypeValue())
                 .description(transaction.getDescription())
                 .amount(transaction.getAmount())
-                .cdCategory(transaction.getCdCategory().getCdCategory())
+                .cdCategory(transaction.getCategory().getCdCategory())
                 .build();
     }
 
