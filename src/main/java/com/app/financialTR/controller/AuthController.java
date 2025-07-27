@@ -1,7 +1,9 @@
 package com.app.financialTR.controller;
 
-import com.app.financialTR.model.LoginRequest;
+import com.app.financialTR.DTO.UserRegistrationDTO;
+import com.app.financialTR.response.LoginRequest;
 import com.app.financialTR.response.JwtResponse;
+import com.app.financialTR.response.UserRegistrationResponse;
 import com.app.financialTR.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,5 +34,10 @@ public class AuthController {
         }
 
 
+    }
+
+    @PostMapping(value = "/register")
+    public ResponseEntity<UserRegistrationResponse> registerUser(@RequestBody UserRegistrationDTO user) {
+        return new ResponseEntity<>(authService.registerUser(user), HttpStatus.CREATED);
     }
 }

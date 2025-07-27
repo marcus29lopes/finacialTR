@@ -1,4 +1,4 @@
-package com.app.financialTR.model;
+package com.app.financialTR.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
