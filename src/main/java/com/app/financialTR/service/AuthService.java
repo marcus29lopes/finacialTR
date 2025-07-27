@@ -71,6 +71,5 @@ public class AuthService {
 
         throw new RuntimeException("User already exists");
 
-
     }
 }

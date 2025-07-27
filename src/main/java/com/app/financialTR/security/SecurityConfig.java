@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/FTR/register", "/FTR/auth/login").permitAll()
+                .requestMatchers("/FTR/auth/register", "/FTR/auth/login").permitAll()
                 .anyRequest().authenticated());
 
         http.addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);

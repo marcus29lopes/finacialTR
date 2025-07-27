@@ -1,10 +1,11 @@
 package com.app.financialTR.controller;
 
 import com.app.financialTR.DTO.UserRegistrationDTO;
-import com.app.financialTR.response.LoginRequest;
 import com.app.financialTR.response.JwtResponse;
+import com.app.financialTR.response.LoginRequest;
 import com.app.financialTR.response.UserRegistrationResponse;
 import com.app.financialTR.service.AuthService;
+import com.app.financialTR.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest loginRequest) {
 
@@ -32,12 +36,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new JwtResponse("Invalid credentials"));
         }
-
-
     }
 
     @PostMapping(value = "/register")
     public ResponseEntity<UserRegistrationResponse> registerUser(@RequestBody UserRegistrationDTO user) {
-        return new ResponseEntity<>(authService.registerUser(user), HttpStatus.CREATED);
+        UserRegistrationResponse registered = authService.registerUser(user);
+        emailService.sendWelcomeEmail(user.getDsEmail(), user.getNmUser());
+        return new ResponseEntity<>(registered, HttpStatus.CREATED);
     }
 }
