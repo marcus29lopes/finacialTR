@@ -69,4 +69,11 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getTotalBalance(), HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/transactions/delete")
+    public ResponseEntity<Void> deleteTransaction(@RequestHeader Long transactionId) {
+        transactionService.removeTransaction(transactionId);
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
 }

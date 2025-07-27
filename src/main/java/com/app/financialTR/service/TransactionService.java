@@ -114,4 +114,8 @@ public class TransactionService {
 
         return balance;
     }
+
+    public void removeTransaction(Long transactionId) {
+         transactionRepository.deleteById(transactionId);
+    }
 }
