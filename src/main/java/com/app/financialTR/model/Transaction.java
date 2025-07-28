@@ -25,13 +25,13 @@ public class Transaction {
     private TypeValue typeValue;
 
     @Column(name = "description")
-    private String description;
+    private String dsDescription;
 
     @Column(name = "date")
-    private LocalDateTime dateTime;
+    private LocalDateTime dtDateTime;
 
     @Column(name = "amount")
-    private BigDecimal amount;
+    private BigDecimal vlAmount;
 
     @ManyToOne
     @JoinColumn(name = "cd_category")

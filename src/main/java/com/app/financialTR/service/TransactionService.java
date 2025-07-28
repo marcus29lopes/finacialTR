@@ -12,9 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -85,7 +83,7 @@ public class TransactionService {
         LocalDateTime startDateTime = startDate.atStartOfDay(); // 00:00 do dia inicial
         LocalDateTime endDateTime = endDate.plusDays(1).atStartOfDay(); // 00:00 do dia seguinte
 
-        List<Transaction> transactionList = transactionRepository.findTransactionByDateTimeBetween(startDateTime, endDateTime);
+        List<Transaction> transactionList = transactionRepository.findTransactionByDtDateTimeBetween(startDateTime, endDateTime);
 
 
         return transactionList.stream()
@@ -109,7 +107,7 @@ public class TransactionService {
         //traz todas transactions que e do tipo entrada e soma retornando um bigDecimal
         BigDecimal balance = transactionRepository.getTransactionByTypeValue(2L)
                 .stream()
-                .map(Transaction::getAmount)
+                .map(Transaction::getVlAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return balance;

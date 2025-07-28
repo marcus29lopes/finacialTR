@@ -22,11 +22,11 @@ public class TransactionDTO {
 
     @NotBlank
     @Size(min = 1, max = 50)
-    private String description;
+    private String dsDescription;
 
     @NotNull
     @Min(0)
-    private BigDecimal amount;
+    private BigDecimal vlAmount;
 
     @NotNull
     private Long cdCategory;

@@ -32,6 +32,6 @@ public class CategoryService {
 
         categoryRepository.save(category);
 
-        return "Category named: " + categoryDTO.getNmCategory() + "added successfully";
+        return "Category named: " + categoryDTO.getNmCategory() + " added successfully";
     }
 }

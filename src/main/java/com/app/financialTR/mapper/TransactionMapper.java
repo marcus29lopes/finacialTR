@@ -12,9 +12,9 @@ public class TransactionMapper {
 
     public Transaction toEntity(TransactionDTO transactionDTO, TypeValue typeValueTransaction, Category categoryTransaction) {
         return Transaction.builder()
-                .description(transactionDTO.getDescription())
-                .dateTime(LocalDateTime.now())
-                .amount(transactionDTO.getAmount())
+                .dsDescription(transactionDTO.getDsDescription())
+                .dtDateTime(LocalDateTime.now())
+                .vlAmount(transactionDTO.getVlAmount())
                 .category(categoryTransaction)
                 .typeValue(typeValueTransaction)
                 .build();
@@ -23,8 +23,8 @@ public class TransactionMapper {
     public TransactionDTO toDTO(Transaction transaction) {
         return TransactionDTO.builder()
                 .cdTypeValue(transaction.getTypeValue().getCdTypeValue())
-                .description(transaction.getDescription())
-                .amount(transaction.getAmount())
+                .dsDescription(transaction.getDsDescription())
+                .vlAmount(transaction.getVlAmount())
                 .cdCategory(transaction.getCategory().getCdCategory())
                 .build();
     }
