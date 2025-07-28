@@ -1,5 +1,6 @@
 package com.app.financialTR.service;
 
+import com.app.financialTR.DTO.CategoryDTO;
 import com.app.financialTR.exceptions.DuplicateNameException;
 import com.app.financialTR.model.Category;
 import com.app.financialTR.repository.CategoryRepository;
@@ -20,12 +21,17 @@ public class CategoryService {
 
     }
 
-    public void addCategory(Category category) {
+    public String addCategory(CategoryDTO categoryDTO) {
 
-        Boolean isCategoryFound = categoryRepository.existsByNmCategory(category.getNmCategory());
+        if (categoryRepository.existsByNmCategory(categoryDTO.getNmCategory())) {
+            throw new DuplicateNameException("Category named " + categoryDTO.getNmCategory());
+        }
 
-        if (isCategoryFound) throw new DuplicateNameException("Category named " + category.getNmCategory());
+        Category category = new Category();
+        category.setNmCategory(categoryDTO.getNmCategory());
 
         categoryRepository.save(category);
+
+        return "Category named: " + categoryDTO.getNmCategory() + "added successfully";
     }
 }

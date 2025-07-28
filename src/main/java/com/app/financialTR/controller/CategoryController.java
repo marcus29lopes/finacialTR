@@ -1,5 +1,6 @@
 package com.app.financialTR.controller;
 
+import com.app.financialTR.DTO.CategoryDTO;
 import com.app.financialTR.model.Category;
 import com.app.financialTR.service.CategoryService;
 import jakarta.validation.Valid;
@@ -21,9 +22,9 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/category/save")
-    public ResponseEntity<Category> saveCategory(@Valid @RequestBody Category category) {
-        categoryService.addCategory(category);
-        return new ResponseEntity<>(category, HttpStatus.OK);
+    public ResponseEntity<String> saveCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+        String savedCategory = categoryService.addCategory(categoryDTO);
+        return new ResponseEntity<>(savedCategory, HttpStatus.OK);
     }
 
 }

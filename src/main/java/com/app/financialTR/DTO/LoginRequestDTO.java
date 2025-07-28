@@ -13,8 +13,8 @@ public class LoginRequestDTO {
 
     @NotBlank(message = "O email é obrigatorio")
     @Email(message = "Formato de email invalido")
-    private String email;
+    private String dsEmail;
 
     @NotBlank(message = "A senha é obrigatória")
-    private String password;
+    private String dsPassword;
 }
