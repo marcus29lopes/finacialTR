@@ -6,5 +6,6 @@ public class TODO {
 
            TODO USER ALREADY EXIST RESPONSE MESSAGE
             TODO HISTORICO AÇOES
+            TODO SOMEONE LOGGED IN YOUR ACCOUNT
          */
 }

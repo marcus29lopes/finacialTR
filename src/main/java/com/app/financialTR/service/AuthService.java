@@ -2,7 +2,7 @@ package com.app.financialTR.service;
 
 import com.app.financialTR.DTO.UserRegistrationDTO;
 import com.app.financialTR.exceptions.InvalidCredentialsException;
-import com.app.financialTR.model.Role;
+import com.app.financialTR.exceptions.UserAlreadyExistsException;
 import com.app.financialTR.model.User;
 import com.app.financialTR.repository.RoleRepository;
 import com.app.financialTR.repository.UserRepository;
@@ -52,29 +52,23 @@ public class AuthService {
 
     public UserRegistrationResponse registerUser(UserRegistrationDTO userRegistrationDTO) {
 
-        Boolean userExists = userRepository.existsByDsEmail(userRegistrationDTO.getDsEmail());
-
-        Role userRole = roleRepository.findByCdRole(1L);
-
-        if (!userExists) {
-            String encryptedPassword = encoder.encode(userRegistrationDTO.getDsPassword());
-
-            User newUser = User.builder()
-                    .nmUser(userRegistrationDTO.getNmUser())
-                    .dsEmail(userRegistrationDTO.getDsEmail())
-                    .dsPassword(encryptedPassword)
-                    .role(userRole)
-                    .build();
-
-            userRepository.save(newUser);
-
-            return UserRegistrationResponse.builder()
-                    .dsEmail(newUser.getDsEmail())
-                    .nmUser(newUser.getNmUser())
-                    .build();
+        if (userRepository.existsByDsEmail(userRegistrationDTO.getDsEmail())) {
+            throw new UserAlreadyExistsException("Email ja cadastrado");
         }
 
-        throw new RuntimeException("User already exists");
+        User newUser = User.builder()
+                .nmUser(userRegistrationDTO.getNmUser())
+                .dsEmail(userRegistrationDTO.getDsEmail())
+                .dsPassword(encoder.encode(userRegistrationDTO.getDsPassword()))
+                .role(roleRepository.findByCdRole(1L))
+                .build();
+
+        userRepository.save(newUser);
+
+        return UserRegistrationResponse.builder()
+                .dsEmail(newUser.getDsEmail())
+                .nmUser(newUser.getNmUser())
+                .build();
 
     }
 }

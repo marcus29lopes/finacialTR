@@ -15,15 +15,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateNameException.class)
     public ResponseEntity<ExceptionResponse> duplicateNameException(DuplicateNameException e) {
-        String message = e.getMessage();
-        ExceptionResponse exceptionResponse = new ExceptionResponse(message);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionResponse> resourceNotFoundException(ResourceNotFoundException e) {
-        String message = e.getMessage();
-        ExceptionResponse exceptionResponse = new ExceptionResponse(message);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -40,11 +38,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ExceptionResponse> invalidCredentialsException(InvalidCredentialsException e) {
-        String message = e.getMessage();
-        ExceptionResponse exceptionResponse = new ExceptionResponse(message);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
     }
 
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> userAlreadyExistsException(UserAlreadyExistsException e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
+    }
 
 
 }
