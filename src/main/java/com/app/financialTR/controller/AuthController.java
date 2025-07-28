@@ -1,15 +1,15 @@
 package com.app.financialTR.controller;
 
+import com.app.financialTR.DTO.LoginRequestDTO;
 import com.app.financialTR.DTO.UserRegistrationDTO;
 import com.app.financialTR.response.JwtResponse;
-import com.app.financialTR.response.LoginRequest;
 import com.app.financialTR.response.UserRegistrationResponse;
 import com.app.financialTR.service.AuthService;
 import com.app.financialTR.service.EmailService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +26,10 @@ public class AuthController {
     private EmailService emailService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
 
-        try {
-            String token = authService.authenticateAndGenerateToken(loginRequest.getEmail(), loginRequest.getPassword());
-            return ResponseEntity.ok(new JwtResponse(token));
-
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new JwtResponse("Invalid credentials"));
-        }
+        String token = authService.authenticateAndGenerateToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword());
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
     @PostMapping(value = "/register")

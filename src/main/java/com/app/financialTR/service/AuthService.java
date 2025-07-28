@@ -1,6 +1,7 @@
 package com.app.financialTR.service;
 
 import com.app.financialTR.DTO.UserRegistrationDTO;
+import com.app.financialTR.exceptions.InvalidCredentialsException;
 import com.app.financialTR.model.Role;
 import com.app.financialTR.model.User;
 import com.app.financialTR.repository.RoleRepository;
@@ -10,6 +11,7 @@ import com.app.financialTR.security.UserDetailsImpl;
 import com.app.financialTR.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,14 +36,17 @@ public class AuthService {
     private PasswordEncoder encoder;
 
 
-
     public String authenticateAndGenerateToken(String email, String password) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password));
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password));
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            return jwtUtils.generateToken(userDetails.getUsername());
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return jwtUtils.generateToken(userDetails.getUsername());
+        } catch (BadCredentialsException e) {
+            throw new InvalidCredentialsException("Credenciais inválidas");
+        }
     }
 
 
