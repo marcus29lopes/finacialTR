@@ -31,6 +31,7 @@
 - **Spring Data JPA + PostgreSQL**
 - **MapStruct** para mapeamento de DTOs
 - **Lombok** para redução de boilerplate
+- **Flyway** para versionamento de banco de dados
 - **AWS S3** para upload de arquivos
 - **Swagger/OpenAPI 3** para documentação
 - **Exception Handling** centralizado
